@@ -18,13 +18,17 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
+from functools import lru_cache
+
 import joblib
 import numpy as np
+import pandas as pd
 from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
 
 from pathsnap import config
-from pathsnap.io import list_trips, load_trip
+from pathsnap.geo import LocalProjection
+from pathsnap.io import clean_track, list_trips, load_trip
 from pathsnap.labels import reference_arcs
 from pathsnap.metrics import pointwise_accuracy, route_continuity, route_set_scores
 from pathsnap.pipeline import predict_trip
@@ -64,6 +68,27 @@ def health():
 @app.get("/trips")
 def trips():
     return {"trips": list_trips(config.EVAL_DIR)}
+
+
+@lru_cache(maxsize=256)
+def _track_summary(trip_id: str):
+    """Descriptive stats from the GPS track ONLY (no road network, no reference route)."""
+    track = clean_track(pd.read_csv(Path(config.EVAL_DIR) / trip_id / f"{trip_id}.track",
+                                    sep=r"\s+", header=None, names=["lon", "lat", "t"]))
+    proj = LocalProjection(track["lon"].mean(), track["lat"].mean())
+    xy = proj.to_xy(track["lon"].values, track["lat"].values)
+    t = track["t"].values
+    return {"trip_id": trip_id, "n_points": int(len(track)),
+            "duration_s": float(t[-1] - t[0]),
+            "gps_distance_km": float(np.linalg.norm(np.diff(xy, axis=0), axis=1).sum() / 1000),
+            "start": [float(track["lat"].iloc[0]), float(track["lon"].iloc[0])],
+            "end": [float(track["lat"].iloc[-1]), float(track["lon"].iloc[-1])]}
+
+
+@app.get("/trips/summary")
+def trips_summary():
+    """Per-trip GPS stats for the UI's trip list (shown before a trip is reconstructed)."""
+    return {"trips": [_track_summary(t) for t in list_trips(config.EVAL_DIR)]}
 
 
 @app.post("/predict")
