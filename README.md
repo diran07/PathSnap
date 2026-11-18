@@ -82,9 +82,16 @@ The ground-truth `.route` is read only inside the API, after prediction, to comp
 | Method | Top-1 acc | Route continuity | Route F1 |
 |---|---|---|---|
 | Logistic Regression only | 0.854 | 0.742 | 0.898 |
-| Logistic Regression + HMM | 0.910 | 0.905 | 0.971 |
+| Logistic Regression + HMM (default β=5, unreachable=−30) | 0.910 | 0.905 | 0.971 |
+| Logistic Regression + HMM (tuned β=1, unreachable=−200) | 0.927 | 0.904 | 0.976 |
 
-(Per-trip numbers are in `results/hmm_vs_classifier.csv`.)
+HMM parameters were tuned on the **train** trips using out-of-fold classifier scores
+(`python scripts/tune_hmm.py logreg`). The search grid, log and heatmap are in
+`results/hmm_tuning_*` and `results/plots/hmm_tuning_heatmap.png`. The tuned values are saved to
+`models/hmm_params.json`, which the pipeline and API load automatically. Re-run the tuning
+whenever the final classifier changes.
+
+(Per-trip numbers are in `results/hmm_vs_classifier.csv` and `results/hmm_tuning_summary.csv`.)
 
 ## Reproduce the Random Forest experiment
 

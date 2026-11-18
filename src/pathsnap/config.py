@@ -33,3 +33,4 @@ HMM_BETA = 5.0            # transition scale (metres)
 HMM_EMISSION_WEIGHT = 1.0
 HMM_UNREACHABLE_LOGP = -30.0
 HMM_SP_LIMIT_M = 3000.0   # Dijkstra search limit
+HMM_BACKWARD_TOL_M = float("inf")  # inf = backward moves on an arc are free (original model)
