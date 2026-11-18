@@ -175,8 +175,9 @@ story += [tt, Spacer(1, 1.6 * cm),
           Spacer(1, 2 * cm),
           para("All results in this report are on the <b>student-test</b> partition (10 trips) unless stated, and are "
                "produced by the code in the repository (tables are generated from <i>results/</i> by "
-               "<i>scripts/build_report.py</i>). The evaluator-test partition was not used for training, tuning, "
-               "model selection or any result in this report.", ParagraphStyle("note", parent=SMALL, alignment=TA_CENTER)),
+               "<i>scripts/build_report.py</i>). The evaluator-test partition was not used for training, tuning or "
+               "model selection; it appears only in the live API-log screenshot (Fig. 15).",
+               ParagraphStyle("note", parent=SMALL, alignment=TA_CENTER)),
           PageBreak()]
 
 # 1 overview
@@ -405,7 +406,8 @@ story += [para("7. API, UI and deployment", H1),
           figure(ui_shot if ui_shot.exists() else FIG / "ui_trip00000000_student_test.jpg",
                  "Fig. 14 - Working UI" + ("" if ui_shot.exists() else " (student-test trip 00000000, captured during testing)"),
                  max_h=8.5 * cm),
-          figure(SHOTS / "api_logs.png", "Fig. 15 - API responses in the CMD window of the receiving laptop (Laptop 1)", max_h=8 * cm)
+          figure(SHOTS / "api_logs.png", "Fig. 15 - API log on the receiving laptop (Laptop 1) during the live two-laptop run: "
+                 "requests from Laptop 2 (10.154.0.131) answered with 200 OK (evaluator trips)", max_h=8 * cm)
           if (SHOTS / "api_logs.png").exists() else
           placeholder("Insert screenshot: Laptop 1 CMD showing  POST /predict from &lt;Laptop 2 IP&gt; -&gt; 200",
                       "Fig. 15 - API responses on the receiving laptop (save as report/screenshots/api_logs.png and rebuild)")]
