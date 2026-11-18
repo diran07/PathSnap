@@ -10,8 +10,12 @@ git clone https://github.com/diran07/PathSnap.git
 cd PathSnap
 git config user.name  "Your Name"
 git config user.email "your-github-email@gmail.com"     # must match your GitHub account
-pip install -r requirements.txt
+pip install -r requirements-lock.txt                   # exact versions; needs Python 3.11-3.13
+python -c "import sklearn; print(sklearn.__version__)"  # must print 1.7.2
 ```
+**Always use `requirements-lock.txt`, not `requirements.txt`.** A model trained with a different
+scikit-learn version may fail to load on the demo laptop. If you already installed other versions,
+run the command above again and **re-train your models** before committing them.
 Unzip `Student folder.zip` so you have `data/raw/train/...` and `data/raw/student_test/...`, then:
 ```bash
 python scripts/build_features.py      # builds data/processed/*.parquet (~2 min)

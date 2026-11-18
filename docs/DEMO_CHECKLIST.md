@@ -6,8 +6,8 @@
 ## Days before: rehearse once with two real laptops
 
 - [ ] Both laptops: `git pull` and the same commit checked out (`git log -1`)
-- [ ] Laptop 1: `pip install -r requirements-lock.txt` (same versions the model was trained with)
-- [ ] Laptop 2: `pip install -r requirements.txt` (any recent versions are fine)
+- [ ] Both laptops: `pip install -r requirements-lock.txt` (same versions the models were trained with)
+- [ ] Both laptops: `python -c "import sklearn; print(sklearn.__version__)"` prints `1.7.2`
 - [ ] Laptop 1: `models/final_model.joblib` present (or `logreg.joblib` as fallback)
 - [ ] Laptop 1: right-click `setup_firewall.bat` → **Run as administrator** (one time)
 - [ ] Full run-through on a **phone hotspot**, with all 10 student_test trips clicked one by one

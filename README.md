@@ -31,11 +31,19 @@ The model runs behind a FastAPI backend (Laptop 1), and the evaluator uses a Str
 
 ## Setup
 
+Requires **Python 3.11–3.13** (the team uses 3.13).
+
 ```bash
 python -m venv .venv
 .venv\Scripts\activate          # Windows
-pip install -r requirements.txt
+pip install -r requirements-lock.txt
 ```
+
+**Everyone installs `requirements-lock.txt`**, which pins exact versions. Saved models (`.joblib`)
+only load reliably with the same scikit-learn / LightGBM versions they were trained with, so
+all team members, and both demo laptops, must use identical versions.
+`requirements.txt` only lists the minimum versions and is not used for installing.
+Check your version with `python -c "import sklearn; print(sklearn.__version__)"`. It should print `1.7.2`.
 
 The raw data is **not** in git, because it is too large. Unzip `Student folder.zip` so that you get:
 
@@ -60,11 +68,11 @@ Use a phone hotspot for both laptops, because campus Wi-Fi often blocks laptop-t
 
 **Laptop 1 (API):**
 1. Once, as Administrator: `setup_firewall.bat` (opens port 8000)
-2. `pip install -r requirements-lock.txt` (exact versions the model was trained with)
+2. `pip install -r requirements-lock.txt`
 3. `run_api.bat C:\path\to\evaluator_trips`. It prints this laptop's IP, and every request is logged in this window.
 
 **Laptop 2 (UI):**
-1. `pip install -r requirements.txt`
+1. `pip install -r requirements-lock.txt`
 2. `run_ui.bat <laptop1-ip>`, then click **Test connection** in the sidebar.
 
 Manual equivalent (PowerShell uses `$env:VAR="..."`; CMD uses `set VAR=...`):
