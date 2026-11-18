@@ -1,0 +1,8 @@
+{
+  "beta": 1.0,
+  "unreachable": -200.0,
+  "backward_tol": null,
+  "w_emit": 1.0,
+  "tuned_on": "train out-of-fold",
+  "model": "logreg"
+}
