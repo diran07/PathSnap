@@ -22,6 +22,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 import joblib
 import numpy as np
 import pandas as pd
+from lightgbm import LGBMClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import GroupKFold
@@ -42,7 +43,12 @@ MODELS = {
         max_features="sqrt", bootstrap=True, max_samples=0.25,
         n_jobs=4, random_state=config.SEED,
     )),
-    # "lightgbm":      ("Boosting", lambda: LGBMClassifier(...)),
+    "lightgbm": ("Boosting", lambda: LGBMClassifier(
+        objective="binary", n_estimators=160, learning_rate=0.07,
+        num_leaves=31, min_child_samples=80, n_jobs=4,
+        deterministic=True, force_col_wise=True, verbosity=-1,
+        random_state=config.SEED,
+    )),
     # "knn":           ("Instance-based", lambda: make_pipeline(StandardScaler(), KNeighborsClassifier(...))),
     # "mlp":           ("Neural network", lambda: make_pipeline(StandardScaler(), MLPClassifier(...))),
 }
@@ -83,7 +89,10 @@ def run(name):
         m = make().fit(X.iloc[a], y.iloc[a])
         folds.append(evaluate(m, tr.iloc[b]))
         print(f"{name} fold {k + 1}/5: macro F1 {folds[-1]['macro_f1']:.4f}", flush=True)
+        folds[-1]["fold"] = k + 1
+        folds[-1]["validation_trips"] = ",".join(sorted(g.iloc[b].unique()))
     cv = pd.DataFrame(folds)
+    cv.to_csv(config.RESULTS_DIR / f"{name}_cv_folds.csv", index=False)
 
     t0 = time.perf_counter()
     model = make().fit(X, y)

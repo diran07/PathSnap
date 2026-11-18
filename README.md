@@ -119,6 +119,7 @@ Training saves `models/random_forest.joblib` and appends the measured results to
 |---|---:|---:|---:|---:|
 | logreg | 0.8967 | 0.9013 | 83.08% | 0.1698 |
 | random_forest | 0.9045 | 0.9132 | 85.05% | 0.1183 |
+| lightgbm | 0.9063 | 0.9136 | 85.12% | 0.1161 |
 
 On the ten student-test trips, giving each trip equal weight, Random Forest Top-1 accuracy was 87.45% before decoding and 93.74% after HMM decoding. The table above pools labelled observations across trips.
 
@@ -128,6 +129,24 @@ To try this model in the API, run the following in PowerShell on Laptop 1, with 
 $env:PATHSNAP_MODEL = 'random_forest.joblib'
 uvicorn api.main:app --host 0.0.0.0 --port 8000
 ```
+
+## Reproduce the LightGBM experiment
+
+LightGBM sequentially fits trees to reduce binary log loss on candidate roads. The initial configuration uses 160 trees, a learning rate of 0.07, up to 31 leaves per tree, and a minimum of 80 training rows per leaf. The classifier uses the same features and trip-grouped folds as the other models. The split membership and scores for each fold are in `results/lightgbm_cv_folds.csv`.
+
+Run from the project root in the pinned environment:
+
+```powershell
+python scripts/train_models.py lightgbm
+python scripts/evaluate_hmm.py lightgbm
+python scripts/plot_confusion.py lightgbm
+$env:PATHSNAP_MODEL = 'lightgbm.joblib'
+python -m uvicorn api.main:app --host 0.0.0.0 --port 8000
+```
+
+With the API running on the student-test folder, use a second terminal to run `python scripts/verify_student_api.py lightgbm`. It checks the three application endpoints and compares every returned metric with the saved per-trip evaluation.
+
+For this run the decoder used the shared parameters in `models/hmm_params.json`, previously tuned with logistic regression. Across the ten student-test trips, giving each trip equal weight, LightGBM Top-1 accuracy was 87.51% with the classifier and 93.75% after decoding. Per-trip metrics are in `results/lightgbm_hmm_vs_classifier.csv`, and the candidate confusion matrix is in `results/plots/lightgbm_confusion.png`.
 
 ## Team task split
 
