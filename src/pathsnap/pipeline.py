@@ -1,9 +1,11 @@
 """End-to-end processing of one trip: candidates -> features -> model -> HMM."""
+import json
 import time
 
 import numpy as np
 import pandas as pd
 
+from . import config
 from .features import FEATURES, build_features
 from .hmm import viterbi_decode
 from .labels import reference_arcs
@@ -38,15 +40,30 @@ def classifier_only(P, scored):
     return out
 
 
+def load_hmm_params():
+    """Tuned decoder parameters from models/hmm_params.json (written by scripts/tune_hmm.py),
+    or the config defaults if the file does not exist."""
+    f = config.MODELS_DIR / "hmm_params.json"
+    if not f.exists():
+        return {}
+    d = json.loads(f.read_text())
+    out = {k: d[k] for k in ("beta", "unreachable", "w_emit", "backward_tol") if k in d}
+    if "backward_tol" in out and out["backward_tol"] is None:
+        out["backward_tol"] = float("inf")
+    return out
+
+
 def predict_trip(model, trip, hmm_params=None):
     """Inference only: never touches trip.route."""
+    if hmm_params is None:
+        hmm_params = load_hmm_params()
     t0 = time.perf_counter()
     P = prepare(trip)
     cands = generate_candidates(P)
     feats = build_features(P, cands)
     scored = score_candidates(model, feats)
     clf = classifier_only(P, scored)
-    hmm = viterbi_decode(P, scored, ShortestPaths(P), **(hmm_params or {}))
+    hmm = viterbi_decode(P, scored, ShortestPaths(P), **hmm_params)
     return {"prepared": P, "candidates": cands, "scored": scored,
             "classifier_pred": clf, "hmm_pred": hmm,
             "inference_s": time.perf_counter() - t0}
