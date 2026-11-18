@@ -1,5 +1,7 @@
-# Exact versions used to train the saved models. Install on the API laptop with:
+# Exact versions used to train the saved models. EVERY team member and both demo
+# laptops install from this file (Python 3.11-3.13):
 #   pip install -r requirements-lock.txt
+# Models trained with other versions (e.g. scikit-learn 1.9.x) may not load. Re-train them.
 fastapi==0.120.1
 folium==1.0.0
 joblib==1.5.2
