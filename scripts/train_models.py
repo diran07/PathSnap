@@ -10,6 +10,7 @@ Usage:
     python scripts/train_models.py logreg          # one model
 
     python scripts/train_models.py random_forest   # train the forest only
+    python scripts/train_models.py knn mlp         # models 4 and 5
 """
 import json
 import sys
@@ -26,12 +27,15 @@ from lightgbm import LGBMClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import GroupKFold
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neural_network import MLPClassifier
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
 from pathsnap import config
 from pathsnap.features import FEATURES
 from pathsnap.metrics import candidate_metrics
+from pathsnap.models import SubsampledClassifier
 
 # name -> (family, factory). Factories return an unfitted sklearn-style estimator
 # with predict_proba.
@@ -49,8 +53,20 @@ MODELS = {
         deterministic=True, force_col_wise=True, verbosity=-1,
         random_state=config.SEED,
     )),
-    # "knn":           ("Instance-based", lambda: make_pipeline(StandardScaler(), KNeighborsClassifier(...))),
-    # "mlp":           ("Neural network", lambda: make_pipeline(StandardScaler(), MLPClassifier(...))),
+    # KNN stores its training rows, so it is fitted on a seeded 100k-row subsample.
+    # A check on fold 1 gave the same macro-F1 with 100k and 200k rows (0.866 vs 0.866).
+    # Features are standardised because KNN distances are scale-sensitive.
+    "knn": ("Instance-based", lambda: SubsampledClassifier(
+        make_pipeline(StandardScaler(),
+                      KNeighborsClassifier(n_neighbors=25, weights="distance", n_jobs=-1)),
+        n_samples=100_000, random_state=config.SEED)),
+    # Two hidden layers; early stopping on a 10 % internal validation split.
+    "mlp": ("Neural network", lambda: make_pipeline(
+        StandardScaler(),
+        MLPClassifier(hidden_layer_sizes=(64, 32), activation="relu", alpha=1e-4,
+                      batch_size=1024, learning_rate_init=1e-3, max_iter=40,
+                      early_stopping=True, validation_fraction=0.1, n_iter_no_change=5,
+                      random_state=config.SEED))),
 }
 
 
