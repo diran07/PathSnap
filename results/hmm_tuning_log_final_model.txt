@@ -1,0 +1,198 @@
+OOF scores done (64s)
+Train lattices built (15s)
+beta= 0.25 unreachable= -20 backward_tol=  inf  top1=0.8995  continuity=0.8562
+beta= 0.25 unreachable= -20 backward_tol=   40  top1=0.8995  continuity=0.8562
+beta= 0.25 unreachable= -20 backward_tol=   80  top1=0.8995  continuity=0.8562
+beta= 0.25 unreachable= -30 backward_tol=  inf  top1=0.9028  continuity=0.8664
+beta= 0.25 unreachable= -30 backward_tol=   40  top1=0.9028  continuity=0.8663
+beta= 0.25 unreachable= -30 backward_tol=   80  top1=0.9028  continuity=0.8664
+beta= 0.25 unreachable= -50 backward_tol=  inf  top1=0.9053  continuity=0.8766
+beta= 0.25 unreachable= -50 backward_tol=   40  top1=0.9053  continuity=0.8766
+beta= 0.25 unreachable= -50 backward_tol=   80  top1=0.9053  continuity=0.8766
+beta= 0.25 unreachable= -80 backward_tol=  inf  top1=0.9061  continuity=0.8805
+beta= 0.25 unreachable= -80 backward_tol=   40  top1=0.9061  continuity=0.8805
+beta= 0.25 unreachable= -80 backward_tol=   80  top1=0.9061  continuity=0.8805
+beta= 0.25 unreachable=-120 backward_tol=  inf  top1=0.9070  continuity=0.8820
+beta= 0.25 unreachable=-120 backward_tol=   40  top1=0.9070  continuity=0.8819
+beta= 0.25 unreachable=-120 backward_tol=   80  top1=0.9070  continuity=0.8820
+beta= 0.25 unreachable=-200 backward_tol=  inf  top1=0.9072  continuity=0.8826
+beta= 0.25 unreachable=-200 backward_tol=   40  top1=0.9072  continuity=0.8826
+beta= 0.25 unreachable=-200 backward_tol=   80  top1=0.9072  continuity=0.8826
+beta=  0.5 unreachable= -20 backward_tol=  inf  top1=0.9147  continuity=0.8751
+beta=  0.5 unreachable= -20 backward_tol=   40  top1=0.9147  continuity=0.8751
+beta=  0.5 unreachable= -20 backward_tol=   80  top1=0.9147  continuity=0.8751
+beta=  0.5 unreachable= -30 backward_tol=  inf  top1=0.9168  continuity=0.8809
+beta=  0.5 unreachable= -30 backward_tol=   40  top1=0.9168  continuity=0.8808
+beta=  0.5 unreachable= -30 backward_tol=   80  top1=0.9168  continuity=0.8809
+beta=  0.5 unreachable= -50 backward_tol=  inf  top1=0.9177  continuity=0.8833
+beta=  0.5 unreachable= -50 backward_tol=   40  top1=0.9177  continuity=0.8832
+beta=  0.5 unreachable= -50 backward_tol=   80  top1=0.9177  continuity=0.8833
+beta=  0.5 unreachable= -80 backward_tol=  inf  top1=0.9189  continuity=0.8841
+beta=  0.5 unreachable= -80 backward_tol=   40  top1=0.9189  continuity=0.8841
+beta=  0.5 unreachable= -80 backward_tol=   80  top1=0.9189  continuity=0.8841
+beta=  0.5 unreachable=-120 backward_tol=  inf  top1=0.9193  continuity=0.8845
+beta=  0.5 unreachable=-120 backward_tol=   40  top1=0.9193  continuity=0.8845
+beta=  0.5 unreachable=-120 backward_tol=   80  top1=0.9193  continuity=0.8845
+beta=  0.5 unreachable=-200 backward_tol=  inf  top1=0.9178  continuity=0.8848
+beta=  0.5 unreachable=-200 backward_tol=   40  top1=0.9178  continuity=0.8847
+beta=  0.5 unreachable=-200 backward_tol=   80  top1=0.9178  continuity=0.8848
+beta= 0.75 unreachable= -20 backward_tol=  inf  top1=0.9192  continuity=0.8823
+beta= 0.75 unreachable= -20 backward_tol=   40  top1=0.9192  continuity=0.8823
+beta= 0.75 unreachable= -20 backward_tol=   80  top1=0.9192  continuity=0.8823
+beta= 0.75 unreachable= -30 backward_tol=  inf  top1=0.9200  continuity=0.8844
+beta= 0.75 unreachable= -30 backward_tol=   40  top1=0.9200  continuity=0.8844
+beta= 0.75 unreachable= -30 backward_tol=   80  top1=0.9200  continuity=0.8844
+beta= 0.75 unreachable= -50 backward_tol=  inf  top1=0.9204  continuity=0.8854
+beta= 0.75 unreachable= -50 backward_tol=   40  top1=0.9204  continuity=0.8854
+beta= 0.75 unreachable= -50 backward_tol=   80  top1=0.9204  continuity=0.8854
+beta= 0.75 unreachable= -80 backward_tol=  inf  top1=0.9217  continuity=0.8858
+beta= 0.75 unreachable= -80 backward_tol=   40  top1=0.9217  continuity=0.8858
+beta= 0.75 unreachable= -80 backward_tol=   80  top1=0.9217  continuity=0.8858
+beta= 0.75 unreachable=-120 backward_tol=  inf  top1=0.9223  continuity=0.8861
+beta= 0.75 unreachable=-120 backward_tol=   40  top1=0.9223  continuity=0.8861
+beta= 0.75 unreachable=-120 backward_tol=   80  top1=0.9223  continuity=0.8861
+beta= 0.75 unreachable=-200 backward_tol=  inf  top1=0.9224  continuity=0.8864
+beta= 0.75 unreachable=-200 backward_tol=   40  top1=0.9224  continuity=0.8864
+beta= 0.75 unreachable=-200 backward_tol=   80  top1=0.9224  continuity=0.8864
+beta=    1 unreachable= -20 backward_tol=  inf  top1=0.9186  continuity=0.8838
+beta=    1 unreachable= -20 backward_tol=   40  top1=0.9186  continuity=0.8838
+beta=    1 unreachable= -20 backward_tol=   80  top1=0.9186  continuity=0.8838
+beta=    1 unreachable= -30 backward_tol=  inf  top1=0.9190  continuity=0.8853
+beta=    1 unreachable= -30 backward_tol=   40  top1=0.9190  continuity=0.8853
+beta=    1 unreachable= -30 backward_tol=   80  top1=0.9190  continuity=0.8853
+beta=    1 unreachable= -50 backward_tol=  inf  top1=0.9203  continuity=0.8858
+beta=    1 unreachable= -50 backward_tol=   40  top1=0.9203  continuity=0.8857
+beta=    1 unreachable= -50 backward_tol=   80  top1=0.9203  continuity=0.8858
+beta=    1 unreachable= -80 backward_tol=  inf  top1=0.9210  continuity=0.8861
+beta=    1 unreachable= -80 backward_tol=   40  top1=0.9210  continuity=0.8861
+beta=    1 unreachable= -80 backward_tol=   80  top1=0.9210  continuity=0.8861
+beta=    1 unreachable=-120 backward_tol=  inf  top1=0.9212  continuity=0.8863
+beta=    1 unreachable=-120 backward_tol=   40  top1=0.9212  continuity=0.8863
+beta=    1 unreachable=-120 backward_tol=   80  top1=0.9212  continuity=0.8863
+beta=    1 unreachable=-200 backward_tol=  inf  top1=0.9212  continuity=0.8864
+beta=    1 unreachable=-200 backward_tol=   40  top1=0.9212  continuity=0.8864
+beta=    1 unreachable=-200 backward_tol=   80  top1=0.9212  continuity=0.8864
+beta=  1.5 unreachable= -20 backward_tol=  inf  top1=0.9213  continuity=0.8856
+beta=  1.5 unreachable= -20 backward_tol=   40  top1=0.9213  continuity=0.8856
+beta=  1.5 unreachable= -20 backward_tol=   80  top1=0.9213  continuity=0.8856
+beta=  1.5 unreachable= -30 backward_tol=  inf  top1=0.9213  continuity=0.8861
+beta=  1.5 unreachable= -30 backward_tol=   40  top1=0.9213  continuity=0.8861
+beta=  1.5 unreachable= -30 backward_tol=   80  top1=0.9213  continuity=0.8861
+beta=  1.5 unreachable= -50 backward_tol=  inf  top1=0.9224  continuity=0.8864
+beta=  1.5 unreachable= -50 backward_tol=   40  top1=0.9224  continuity=0.8864
+beta=  1.5 unreachable= -50 backward_tol=   80  top1=0.9224  continuity=0.8864
+beta=  1.5 unreachable= -80 backward_tol=  inf  top1=0.9228  continuity=0.8868
+beta=  1.5 unreachable= -80 backward_tol=   40  top1=0.9228  continuity=0.8868
+beta=  1.5 unreachable= -80 backward_tol=   80  top1=0.9228  continuity=0.8868
+beta=  1.5 unreachable=-120 backward_tol=  inf  top1=0.9232  continuity=0.8869
+beta=  1.5 unreachable=-120 backward_tol=   40  top1=0.9232  continuity=0.8869
+beta=  1.5 unreachable=-120 backward_tol=   80  top1=0.9232  continuity=0.8869
+beta=  1.5 unreachable=-200 backward_tol=  inf  top1=0.9222  continuity=0.8871
+beta=  1.5 unreachable=-200 backward_tol=   40  top1=0.9222  continuity=0.8871
+beta=  1.5 unreachable=-200 backward_tol=   80  top1=0.9222  continuity=0.8871
+beta=    2 unreachable= -20 backward_tol=  inf  top1=0.9197  continuity=0.8877
+beta=    2 unreachable= -20 backward_tol=   40  top1=0.9197  continuity=0.8877
+beta=    2 unreachable= -20 backward_tol=   80  top1=0.9197  continuity=0.8877
+beta=    2 unreachable= -30 backward_tol=  inf  top1=0.9198  continuity=0.8882
+beta=    2 unreachable= -30 backward_tol=   40  top1=0.9198  continuity=0.8881
+beta=    2 unreachable= -30 backward_tol=   80  top1=0.9198  continuity=0.8882
+beta=    2 unreachable= -50 backward_tol=  inf  top1=0.9209  continuity=0.8883
+beta=    2 unreachable= -50 backward_tol=   40  top1=0.9209  continuity=0.8883
+beta=    2 unreachable= -50 backward_tol=   80  top1=0.9209  continuity=0.8883
+beta=    2 unreachable= -80 backward_tol=  inf  top1=0.9206  continuity=0.8886
+beta=    2 unreachable= -80 backward_tol=   40  top1=0.9206  continuity=0.8886
+beta=    2 unreachable= -80 backward_tol=   80  top1=0.9206  continuity=0.8886
+beta=    2 unreachable=-120 backward_tol=  inf  top1=0.9217  continuity=0.8888
+beta=    2 unreachable=-120 backward_tol=   40  top1=0.9217  continuity=0.8888
+beta=    2 unreachable=-120 backward_tol=   80  top1=0.9217  continuity=0.8888
+beta=    2 unreachable=-200 backward_tol=  inf  top1=0.9213  continuity=0.8890
+beta=    2 unreachable=-200 backward_tol=   40  top1=0.9213  continuity=0.8890
+beta=    2 unreachable=-200 backward_tol=   80  top1=0.9213  continuity=0.8890
+beta=    3 unreachable= -20 backward_tol=  inf  top1=0.9196  continuity=0.8885
+beta=    3 unreachable= -20 backward_tol=   40  top1=0.9196  continuity=0.8885
+beta=    3 unreachable= -20 backward_tol=   80  top1=0.9196  continuity=0.8885
+beta=    3 unreachable= -30 backward_tol=  inf  top1=0.9199  continuity=0.8888
+beta=    3 unreachable= -30 backward_tol=   40  top1=0.9199  continuity=0.8888
+beta=    3 unreachable= -30 backward_tol=   80  top1=0.9199  continuity=0.8888
+beta=    3 unreachable= -50 backward_tol=  inf  top1=0.9208  continuity=0.8890
+beta=    3 unreachable= -50 backward_tol=   40  top1=0.9208  continuity=0.8890
+beta=    3 unreachable= -50 backward_tol=   80  top1=0.9208  continuity=0.8890
+beta=    3 unreachable= -80 backward_tol=  inf  top1=0.9205  continuity=0.8892
+beta=    3 unreachable= -80 backward_tol=   40  top1=0.9205  continuity=0.8891
+beta=    3 unreachable= -80 backward_tol=   80  top1=0.9205  continuity=0.8892
+beta=    3 unreachable=-120 backward_tol=  inf  top1=0.9213  continuity=0.8894
+beta=    3 unreachable=-120 backward_tol=   40  top1=0.9213  continuity=0.8894
+beta=    3 unreachable=-120 backward_tol=   80  top1=0.9213  continuity=0.8894
+beta=    3 unreachable=-200 backward_tol=  inf  top1=0.9213  continuity=0.8896
+beta=    3 unreachable=-200 backward_tol=   40  top1=0.9213  continuity=0.8896
+beta=    3 unreachable=-200 backward_tol=   80  top1=0.9213  continuity=0.8896
+beta=    5 unreachable= -20 backward_tol=  inf  top1=0.9164  continuity=0.8880
+beta=    5 unreachable= -20 backward_tol=   40  top1=0.9164  continuity=0.8880
+beta=    5 unreachable= -20 backward_tol=   80  top1=0.9164  continuity=0.8880
+beta=    5 unreachable= -30 backward_tol=  inf  top1=0.9165  continuity=0.8882
+beta=    5 unreachable= -30 backward_tol=   40  top1=0.9165  continuity=0.8882
+beta=    5 unreachable= -30 backward_tol=   80  top1=0.9165  continuity=0.8882
+beta=    5 unreachable= -50 backward_tol=  inf  top1=0.9173  continuity=0.8884
+beta=    5 unreachable= -50 backward_tol=   40  top1=0.9173  continuity=0.8884
+beta=    5 unreachable= -50 backward_tol=   80  top1=0.9173  continuity=0.8884
+beta=    5 unreachable= -80 backward_tol=  inf  top1=0.9172  continuity=0.8887
+beta=    5 unreachable= -80 backward_tol=   40  top1=0.9172  continuity=0.8887
+beta=    5 unreachable= -80 backward_tol=   80  top1=0.9172  continuity=0.8887
+beta=    5 unreachable=-120 backward_tol=  inf  top1=0.9176  continuity=0.8889
+beta=    5 unreachable=-120 backward_tol=   40  top1=0.9176  continuity=0.8889
+beta=    5 unreachable=-120 backward_tol=   80  top1=0.9176  continuity=0.8889
+beta=    5 unreachable=-200 backward_tol=  inf  top1=0.9182  continuity=0.8892
+beta=    5 unreachable=-200 backward_tol=   40  top1=0.9182  continuity=0.8892
+beta=    5 unreachable=-200 backward_tol=   80  top1=0.9182  continuity=0.8892
+beta=    8 unreachable= -20 backward_tol=  inf  top1=0.9122  continuity=0.8870
+beta=    8 unreachable= -20 backward_tol=   40  top1=0.9122  continuity=0.8870
+beta=    8 unreachable= -20 backward_tol=   80  top1=0.9122  continuity=0.8870
+beta=    8 unreachable= -30 backward_tol=  inf  top1=0.9121  continuity=0.8871
+beta=    8 unreachable= -30 backward_tol=   40  top1=0.9121  continuity=0.8871
+beta=    8 unreachable= -30 backward_tol=   80  top1=0.9121  continuity=0.8871
+beta=    8 unreachable= -50 backward_tol=  inf  top1=0.9128  continuity=0.8873
+beta=    8 unreachable= -50 backward_tol=   40  top1=0.9128  continuity=0.8873
+beta=    8 unreachable= -50 backward_tol=   80  top1=0.9128  continuity=0.8873
+beta=    8 unreachable= -80 backward_tol=  inf  top1=0.9128  continuity=0.8877
+beta=    8 unreachable= -80 backward_tol=   40  top1=0.9128  continuity=0.8877
+beta=    8 unreachable= -80 backward_tol=   80  top1=0.9128  continuity=0.8877
+beta=    8 unreachable=-120 backward_tol=  inf  top1=0.9133  continuity=0.8879
+beta=    8 unreachable=-120 backward_tol=   40  top1=0.9133  continuity=0.8879
+beta=    8 unreachable=-120 backward_tol=   80  top1=0.9133  continuity=0.8879
+beta=    8 unreachable=-200 backward_tol=  inf  top1=0.9134  continuity=0.8882
+beta=    8 unreachable=-200 backward_tol=   40  top1=0.9134  continuity=0.8882
+beta=    8 unreachable=-200 backward_tol=   80  top1=0.9134  continuity=0.8882
+
+Train OOF classifier-only top1: 0.8356
+Default on train OOF: top1=0.9165
+Best on train OOF: {'beta': 1.5, 'unreachable': -120.0, 'backward_tol': inf}  top1=0.9232
+
+Best top1 per backward_tol (train OOF):
+backward_tol
+40.0    0.9232
+80.0    0.9232
+inf     0.9232
+Name: train_oof_top1, dtype: float64
+
+student_test (mean over 10 trips):
+                 top1_acc  route_continuity  route_f1
+method                                               
+classifier_only    0.8805            0.7817    0.9151
+hmm_default        0.9378            0.9057    0.9746
+hmm_tuned          0.9386            0.9058    0.9761
+
+per trip top1:
+method    classifier_only  hmm_default  hmm_tuned
+trip_id                                          
+00000000           0.9425       0.9604     0.9816
+00000007           0.9660       0.9934     1.0000
+00000009           0.8608       0.9142     0.8970
+00000040           0.9202       0.9750     0.9750
+00000052           0.9580       1.0000     1.0000
+00000056           0.8278       0.8920     0.8910
+00000065           0.8411       0.8893     0.9010
+00000076           0.8943       0.9522     0.9515
+00000077           0.7254       0.8502     0.8318
+00000091           0.8684       0.9508     0.9565
+
+Saved models/hmm_params.json

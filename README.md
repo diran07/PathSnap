@@ -54,11 +54,19 @@ data/raw/student_test/<trip_id>/...
 
 ## Running
 
+Full pipeline, in order:
+
 ```bash
-python scripts/build_features.py        # -> data/processed/*.parquet
-python scripts/train_models.py          # CV + student_test, appends results/experiments.csv
-python scripts/evaluate_hmm.py logreg   # classifier-only vs HMM -> results/hmm_vs_classifier.csv
-python scripts/make_map.py 00000077     # -> results/maps/00000077.html
+python scripts/eda.py                         # EDA tables, plots, Folium maps
+python scripts/build_features.py              # -> data/processed/*.parquet
+python scripts/train_models.py                # all 5 models: CV + student_test -> results/experiments.csv
+python scripts/plot_mlp_loss.py               # MLP train vs validation loss curves
+python scripts/bayes_opt.py 30                # Optuna on LightGBM -> models/final_model.joblib
+python scripts/tune_hmm.py final_model        # HMM params on train OOF -> models/hmm_params.json
+python scripts/evaluate_hmm.py final_model    # classifier-only vs HMM per trip (repeat for each model)
+python scripts/plot_comparison.py             # results/model_comparison.csv + comparison plots
+python scripts/plot_confusion.py final_model  # confusion matrix
+python scripts/make_map.py 00000077           # -> results/maps/00000077.html
 ```
 
 ## Deployment (two laptops)
@@ -85,21 +93,59 @@ python -m streamlit run ui/app.py
 
 The ground-truth `.route` is read only inside the API, after prediction, to compute accuracy. It is never given to the model and never sent to the UI.
 
-## Current baseline results (student_test, 10 trips)
+## Results (student_test, 10 trips)
 
-| Method | Top-1 acc | Route continuity | Route F1 |
+**Final system:** LightGBM tuned with Bayesian optimisation (`models/final_model.joblib`) +
+HMM/Viterbi with β = 1.5, unreachable = −120 (`models/hmm_params.json`). The API loads both automatically.
+
+### Model comparison
+
+All models use the same features, the same 5 trip-grouped CV folds on the 80 train trips, and the same
+HMM parameters. Source: `results/model_comparison.csv`, plots `results/plots/model_comparison*.png`.
+
+| Model | Family | CV macro-F1 (± std) | Test Top-1 | Test macro-F1 | Log loss | Top-1 + HMM¹ | Continuity + HMM¹ |
+|---|---|---|---|---|---|---|---|
+| Logistic Regression | Linear | 0.8967 ± 0.021 | 83.08% | 0.9013 | 0.1698 | 91.35% | 0.904 |
+| Random Forest | Ensemble | 0.9045 ± 0.021 | 85.05% | 0.9132 | 0.1183 | 94.16% | 0.905 |
+| LightGBM | Boosting | 0.9063 ± 0.021 | 85.12% | 0.9136 | 0.1161 | 94.22% | 0.904 |
+| KNN (100k-row subsample) | Instance-based | 0.8978 ± 0.022 | 83.81% | 0.9057 | 0.1877 | 93.14% | 0.901 |
+| MLP (64-32) | Neural network | 0.9034 ± 0.022 | 85.04% | 0.9132 | 0.1190 | 94.07% | 0.905 |
+| **LightGBM tuned (final)** | Boosting | **0.9070 ± 0.022** | **85.72%** | **0.9173** | **0.1140** | 93.86% | **0.906** |
+
+¹ Mean over the 10 trips (the other test columns pool all points).
+
+- **Selection** was made on CV macro-F1, which never uses student-test data. The top three models
+  (LightGBM, Random Forest, MLP) are within 0.003 of each other, far less than the ±0.02 fold-to-fold spread.
+- **After HMM decoding**, the tuned model is 0.3 pts behind untuned LightGBM / Random Forest on these 10 trips
+  (about 50 of ~19k points). The choice was not changed based on test results.
+- **Inference times** in `experiments.csv` were logged during each training run under different machine load.
+  Back-to-back, the tuned model (600 trees) is about 2× slower than untuned (160 trees): 0.69 s vs 0.36 s
+  (`results/bayes_opt_comparison.csv`).
+
+### Bayesian optimisation (LightGBM)
+
+Optuna TPE, 30 trials (+1 interrupted, marked FAIL), MedianPruner, objective = 5-fold CV macro-F1 on the
+train trips. Record: `results/bayes_opt_trials.csv`, `results/optuna_lightgbm.db`, `results/bayes_opt_log.txt`.
+
+| | CV macro-F1 | Test Top-1 | Test macro-F1 | Log loss | Inference |
+|---|---|---|---|---|---|
+| Untuned (160 trees, lr 0.07, 31 leaves) | 0.9063 | 85.12% | 0.9136 | 0.1161 | 0.36 s |
+| Tuned (600 trees, lr 0.038, 82 leaves) | 0.9070 | 85.72% | 0.9173 | 0.1140 | 0.69 s |
+
+### HMM / Viterbi
+
+| Final model | Top-1 | Route continuity | Route F1 |
 |---|---|---|---|
-| Logistic Regression only | 0.854 | 0.742 | 0.898 |
-| Logistic Regression + HMM (default β=5, unreachable=−30) | 0.910 | 0.905 | 0.971 |
-| Logistic Regression + HMM (tuned β=1, unreachable=−200) | 0.927 | 0.904 | 0.976 |
+| Classifier only | 88.05% | 0.782 | 0.915 |
+| + HMM (default β=5, unreachable=−30) | 93.78% | 0.906 | 0.975 |
+| + HMM (tuned β=1.5, unreachable=−120) | 93.86% | 0.906 | 0.976 |
 
-HMM parameters were tuned on the **train** trips using out-of-fold classifier scores
-(`python scripts/tune_hmm.py logreg`). The search grid, log and heatmap are in
-`results/hmm_tuning_*` and `results/plots/hmm_tuning_heatmap.png`. The tuned values are saved to
-`models/hmm_params.json`, which the pipeline and API load automatically. Re-run the tuning
-whenever the final classifier changes.
+HMM parameters were tuned on the **train** trips with out-of-fold classifier scores
+(`python scripts/tune_hmm.py final_model`). Grid, log and heatmap: `results/hmm_tuning_*`,
+`results/plots/hmm_tuning_heatmap.png`. The earlier tuning with logistic regression is kept as `*_logreg`.
 
-(Per-trip numbers are in `results/hmm_vs_classifier.csv` and `results/hmm_tuning_summary.csv`.)
+> The per-model sections below were written during earlier experiments, with earlier HMM settings.
+> The tables above are the current, comparable numbers.
 
 ## Reproduce the Random Forest experiment
 

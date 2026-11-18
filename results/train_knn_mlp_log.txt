@@ -1,0 +1,14 @@
+knn fold 1/5: macro F1 0.8660
+knn fold 2/5: macro F1 0.9051
+knn fold 3/5: macro F1 0.8923
+knn fold 4/5: macro F1 0.9255
+knn fold 5/5: macro F1 0.9001
+knn: CV macroF1 0.8978±0.0216 | test top1 0.8381 macroF1 0.9057 logloss 0.1877
+mlp fold 1/5: macro F1 0.8730
+C:\Users\Lenovo\AppData\Local\Programs\Python\Python313\Lib\site-packages\sklearn\neural_network\_multilayer_perceptron.py:781: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (40) reached and the optimization hasn't converged yet.
+  warnings.warn(
+mlp fold 2/5: macro F1 0.9111
+mlp fold 3/5: macro F1 0.8943
+mlp fold 4/5: macro F1 0.9326
+mlp fold 5/5: macro F1 0.9060
+mlp: CV macroF1 0.9034±0.0219 | test top1 0.8504 macroF1 0.9132 logloss 0.1190
