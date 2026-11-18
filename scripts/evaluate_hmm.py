@@ -1,7 +1,7 @@
 """Compare classifier-only vs classifier + HMM/Viterbi on the student_test trips.
 
-Usage: python scripts/evaluate_hmm.py [model_name]   (default: models/final_model.joblib or logreg)
-Output: results/hmm_vs_classifier.csv
+Usage: python scripts/evaluate_hmm.py [model_name]   (default: logreg)
+Output: results/hmm_vs_classifier.csv for logreg, or results/<model>_hmm_vs_classifier.csv
 """
 import sys
 from pathlib import Path
@@ -36,7 +36,8 @@ def main():
                          "inference_s": out["inference_s"]})
         print(tid, {r["method"]: round(r["top1_acc"], 4) for r in rows[-2:]})
     df = pd.DataFrame(rows)
-    df.to_csv(config.RESULTS_DIR / "hmm_vs_classifier.csv", index=False)
+    filename = "hmm_vs_classifier.csv" if name == "logreg" else f"{name}_hmm_vs_classifier.csv"
+    df.to_csv(config.RESULTS_DIR / filename, index=False)
     print(df.groupby("method").mean(numeric_only=True).round(4))
 
 
