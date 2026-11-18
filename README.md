@@ -106,18 +106,20 @@ HMM parameters. Source: `results/model_comparison.csv`, plots `results/plots/mod
 | Model | Family | CV macro-F1 (± std) | Test Top-1 | Test macro-F1 | Log loss | Top-1 + HMM¹ | Continuity + HMM¹ |
 |---|---|---|---|---|---|---|---|
 | Logistic Regression | Linear | 0.8967 ± 0.021 | 83.08% | 0.9013 | 0.1698 | 91.35% | 0.904 |
-| Random Forest | Ensemble | 0.9045 ± 0.021 | 85.05% | 0.9132 | 0.1183 | 94.16% | 0.905 |
+| Random Forest² | Ensemble | 0.9044 ± 0.021 | 85.03% | 0.9131 | 0.1188 | 94.34% | 0.905 |
 | LightGBM | Boosting | 0.9063 ± 0.021 | 85.12% | 0.9136 | 0.1161 | 94.22% | 0.904 |
 | KNN (100k-row subsample) | Instance-based | 0.8978 ± 0.022 | 83.81% | 0.9057 | 0.1877 | 93.14% | 0.901 |
 | MLP (64-32) | Neural network | 0.9034 ± 0.022 | 85.04% | 0.9132 | 0.1190 | 94.07% | 0.905 |
 | **LightGBM tuned (final)** | Boosting | **0.9070 ± 0.022** | **85.72%** | **0.9173** | **0.1140** | 93.86% | **0.906** |
 
 ¹ Mean over the 10 trips (the other test columns pool all points).
+² Re-trained with the pinned scikit-learn 1.7.2 (originally trained with 1.9.1: CV 0.9045, test Top-1 85.05%,
+log loss 0.1183, so the re-train changes results by at most 0.0005).
 
 - **Selection** was made on CV macro-F1, which never uses student-test data. The top three models
   (LightGBM, Random Forest, MLP) are within 0.003 of each other, far less than the ±0.02 fold-to-fold spread.
-- **After HMM decoding**, the tuned model is 0.3 pts behind untuned LightGBM / Random Forest on these 10 trips
-  (about 50 of ~19k points). The choice was not changed based on test results.
+- **After HMM decoding**, the tuned model is 0.4–0.5 pts behind Random Forest and untuned LightGBM on these
+  10 trips. That is within the noise of a 10-trip test set, and the choice was not changed based on test results.
 - **Inference times** in `experiments.csv` were logged during each training run under different machine load.
   Back-to-back, the tuned model (600 trees) is about 2× slower than untuned (160 trees): 0.69 s vs 0.36 s
   (`results/bayes_opt_comparison.csv`).
