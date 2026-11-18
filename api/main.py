@@ -19,6 +19,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 import joblib
+import numpy as np
 from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
 
@@ -85,8 +86,23 @@ def predict(req: PredictRequest):
                              **route_set_scores(pred, gt, P.arc_len)}
     log.info("trip %s: %d points, HMM top-1 %.4f, %.2fs", req.trip_id, len(P.pts),
              metrics.get("hmm", {}).get("top1_accuracy", float("nan")), out["inference_s"])
+    # descriptive stats from GPS + predictions only (no ground truth)
+    hmm_pred, clf_pred = out["hmm_pred"], out["classifier_pred"]
+    t = P.track["t"].values
+    seq = hmm_pred[hmm_pred >= 0]
+    seq = seq[np.r_[True, seq[1:] != seq[:-1]]] if len(seq) else seq
+    summary = {
+        "duration_s": float(t[-1] - t[0]),
+        "gps_distance_km": float(np.linalg.norm(np.diff(P.pts, axis=0), axis=1).sum() / 1000),
+        "predicted_length_km": float(P.arc_len[seq].sum() / 1000),
+        "predicted_segments": int(len(seq)),
+        "hmm_changed_points": float((hmm_pred != clf_pred).mean()),
+        "candidates_per_point": float(len(out["candidates"]) / max(len(P.pts), 1)),
+    }
     return {
         "trip_id": req.trip_id,
+        "model": model_name,
+        "summary": summary,
         "n_points": int(len(P.pts)),
         "gps": P.track[["lat", "lon"]].values.round(6).tolist(),
         "predicted_arcs": out["hmm_pred"].tolist(),
