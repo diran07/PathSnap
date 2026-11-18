@@ -15,16 +15,23 @@ def arcs_to_lines(nodes_lonlat, arcs, arc_ids):
     return out
 
 
-def route_map(gps_latlon, layers, network_lines=None, every=1):
-    """gps_latlon: (n,2) lat/lon. layers: dict name -> (segments, colour)."""
+def route_map(gps_latlon, layers, network_lines=None, every=None, max_points=1500):
+    """gps_latlon: (n,2) lat/lon. layers: dict name -> (segments, colour).
+
+    GPS markers are thinned to at most `max_points` (display only) so long trips
+    stay responsive in the browser; predictions still cover every point.
+    """
     gps_latlon = np.asarray(gps_latlon)
+    if every is None:
+        every = max(1, int(np.ceil(len(gps_latlon) / max_points)))
     m = folium.Map(tiles="OpenStreetMap", control_scale=True)
     if network_lines:
         fg = folium.FeatureGroup("Road network (nearby)", show=False)
         for seg in network_lines:
             folium.PolyLine(seg, color="#999999", weight=1, opacity=0.6).add_to(fg)
         fg.add_to(m)
-    fg = folium.FeatureGroup("GPS observations")
+    label = "GPS observations" if every == 1 else f"GPS observations (every {every}th shown)"
+    fg = folium.FeatureGroup(label)
     for lat, lon in gps_latlon[::every]:
         folium.CircleMarker([lat, lon], radius=2, color="#1f77b4", fill=True, opacity=0.7).add_to(fg)
     fg.add_to(m)

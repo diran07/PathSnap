@@ -53,19 +53,26 @@ python scripts/evaluate_hmm.py logreg   # classifier-only vs HMM -> results/hmm_
 python scripts/make_map.py 00000077     # -> results/maps/00000077.html
 ```
 
-## Deployment (two laptops, same Wi-Fi)
+## Deployment (two laptops)
+
+Full step-by-step guide and troubleshooting: **[docs/DEMO_CHECKLIST.md](docs/DEMO_CHECKLIST.md)**.
+Use a phone hotspot for both laptops, because campus Wi-Fi often blocks laptop-to-laptop traffic.
 
 **Laptop 1 (API):**
-```bash
-set PATHSNAP_EVAL_DIR=C:\path\to\evaluator_trips     # folder given by organisers
-uvicorn api.main:app --host 0.0.0.0 --port 8000
-```
-Find its IP with `ipconfig` and allow port 8000 through Windows Firewall. Every request is logged in this terminal; show these logs to the evaluator.
+1. Once, as Administrator: `setup_firewall.bat` (opens port 8000)
+2. `pip install -r requirements-lock.txt` (exact versions the model was trained with)
+3. `run_api.bat C:\path\to\evaluator_trips`. It prints this laptop's IP, and every request is logged in this window.
 
 **Laptop 2 (UI):**
+1. `pip install -r requirements.txt`
+2. `run_ui.bat <laptop1-ip>`, then click **Test connection** in the sidebar.
+
+Manual equivalent (PowerShell uses `$env:VAR="..."`; CMD uses `set VAR=...`):
 ```bash
-set PATHSNAP_API=http://<laptop1-ip>:8000
-streamlit run ui/app.py
+python -m uvicorn api.main:app --host 0.0.0.0 --port 8000
+```
+```bash
+python -m streamlit run ui/app.py
 ```
 
 The ground-truth `.route` is read only inside the API, after prediction, to compute accuracy. It is never given to the model and never sent to the UI.
