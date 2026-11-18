@@ -86,6 +86,34 @@ The ground-truth `.route` is read only inside the API, after prediction, to comp
 
 (Per-trip numbers are in `results/hmm_vs_classifier.csv`.)
 
+## Reproduce the Random Forest experiment
+
+After building the feature tables, run these from the project root in the activated environment:
+
+```powershell
+python scripts/train_models.py random_forest
+python scripts/evaluate_hmm.py random_forest
+python scripts/plot_confusion.py random_forest
+```
+
+The forest uses 48 trees, Gini impurity, a maximum depth of 14, and at least five samples per leaf. Each tree trains on a bootstrap sample of 25% of the training rows and considers a square-root subset of features at each split. These initial settings limit fitting time on the million-row candidate table. The random seed is 42. The model uses the same candidate features and five trip-grouped folds as logistic regression.
+
+Training saves `models/random_forest.joblib` and appends the measured results to `results/experiments.csv`. Decoder evaluation saves per-trip scores to `results/random_forest_hmm_vs_classifier.csv`. The confusion matrix in `results/plots/random_forest_confusion.png` counts candidate rows on labelled student-test observations, with one predicted positive per observation.
+
+| Model | CV macro F1 | Student-test macro F1 | Pooled Top-1 | Log loss |
+|---|---:|---:|---:|---:|
+| logreg | 0.8967 | 0.9013 | 83.08% | 0.1698 |
+| random_forest | 0.9045 | 0.9132 | 85.05% | 0.1183 |
+
+On the ten student-test trips, giving each trip equal weight, Random Forest Top-1 accuracy was 87.45% before decoding and 93.74% after HMM decoding. The table above pools labelled observations across trips.
+
+To try this model in the API, run the following in PowerShell on Laptop 1, with the environment activated. The API uses the student-test folder by default.
+
+```powershell
+$env:PATHSNAP_MODEL = 'random_forest.joblib'
+uvicorn api.main:app --host 0.0.0.0 --port 8000
+```
+
 ## Team task split
 
 | Member | Owns | Deliverables |
